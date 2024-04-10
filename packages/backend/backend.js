@@ -36,9 +36,13 @@ const addUser = (user) => {
 const removeUserById = (id) =>
   users["users_list"] = users["users_list"].filter(user => user.id !== id);
 
+
+
 const findUserByName_Job = (name, job) => {
-
-
+  return users["users_list"].filter(
+    (user) => (user["name"] === name && 
+    user["job"] === job)
+  );
 };
 
 //get requests 
@@ -55,15 +59,16 @@ app.get("/users/:id", (req, res) => {
 //to-do: extend this to match name and job 
 //Second, implement an additional action to get all users that match a
 //given name and a given job. Hint: look at what we did in step 4 and extend it.
-
-app.get("/users/:job", (req, res) => {
+app.get("/users", (req, res) => {
   const name = req.query.name;
-  if (name != undefined) {
-    let result = findUserByName(name);
+  const job = req.query.job;
+  if (name && job ) {
+    let result = findUserByName_Job(name, job);
+    // res.send(name)
     result = { users_list: result };
     res.send(result);
   } else {
-    res.send(users);
+    res.send("Failed");
   }
 });
 
