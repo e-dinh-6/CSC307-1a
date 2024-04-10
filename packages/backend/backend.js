@@ -28,6 +28,19 @@ const findUserById = (id) =>
   users["users_list"].find((user) => user["id"] === id);
 
 
+const addUser = (user) => {
+  users["users_list"].push(user);
+  return user;
+  };
+
+const removeUserById = (id) =>
+  users["users_list"] = users["users_list"].filter(user => user.id !== id);
+
+const findUserByName_Job = (name, job) => {
+
+
+};
+
 //get requests 
 app.get("/users/:id", (req, res) => {
   const id = req.params["id"]; //or req.params.id
@@ -39,6 +52,22 @@ app.get("/users/:id", (req, res) => {
   }
 });
 
+//to-do: extend this to match name and job 
+//Second, implement an additional action to get all users that match a
+//given name and a given job. Hint: look at what we did in step 4 and extend it.
+
+app.get("/users/:job", (req, res) => {
+  const name = req.query.name;
+  if (name != undefined) {
+    let result = findUserByName(name);
+    result = { users_list: result };
+    res.send(result);
+  } else {
+    res.send(users);
+  }
+});
+
+
 app.get("/users", (req, res) => {
   const name = req.query.name;
   if (name != undefined) {
@@ -47,6 +76,24 @@ app.get("/users", (req, res) => {
     res.send(result);
   } else {
     res.send(users);
+  }
+});
+
+//Post requests 
+app.post("/users", (req, res) => {
+  const userToAdd = req.body;
+  addUser(userToAdd);
+  res.send();
+});
+
+//delete request 
+app.delete("/users/:id", (req, res) => {
+  const userToDel = req.params["id"];
+  let result = removeUserById(userToDel);
+  if (result === undefined) {
+    res.status(404).send("Resource not found.");
+  } else {
+    res.send("Delete Successful.");
   }
 });
 
