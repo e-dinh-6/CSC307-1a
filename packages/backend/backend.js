@@ -13,6 +13,7 @@ app.get("/", (req, res) => {
 });
 
 
+
 app.listen(port, () => {
   console.log(
     `Example app listening at http://localhost:${port}`
@@ -66,25 +67,30 @@ app.get("/users", (req, res) => {
   const job = req.query.job;
   if (name && job ) {
     let result = findUserByName_Job(name, job);
-    // res.send(name)
     result = { users_list: result };
     res.send(result);
-  } else {
-    res.send("Failed");
-  }
-});
-
-
-app.get("/users", (req, res) => {
-  const name = req.query.name;
-  if (name != undefined) {
+  } 
+  else if (name){
     let result = findUserByName(name);
     result = { users_list: result };
     res.send(result);
-  } else {
+  }
+  else {
     res.send(users);
   }
 });
+
+
+// app.get("/users", (req, res) => {
+//   const name = req.query.name;
+//   if (name != undefined) {
+//     let result = findUserByName(name);
+//     result = { users_list: result };
+//     res.send(result);
+//   } else {
+//     res.send("users");
+//   }
+// }); 
 
 //Post requests 
 app.post("/users", (req, res) => {
