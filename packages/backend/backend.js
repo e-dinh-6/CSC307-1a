@@ -94,22 +94,13 @@ app.get("/users", (req, res) => {
 });
 
 
-// app.get("/users", (req, res) => {
-//   const name = req.query.name;
-//   if (name != undefined) {
-//     let result = findUserByName(name);
-//     result = { users_list: result };
-//     res.send(result);
-//   } else {
-//     res.send("users");
-//   }
-// }); 
-
 //Post requests 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
-  addUser(userToAdd);
-  res.status(201).send();
+
+  //added this too 
+  let newUser = addUser(userToAdd);
+  res.status(201).send(newUser);
 });
 
 //delete request 

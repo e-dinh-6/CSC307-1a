@@ -14,10 +14,20 @@ function MyApp() {
     }, [] );
 
     function removeOneCharacter(index) {
+        // const promise = fetch("http://localhost:8000/users", {
+        //   method: "DELETE", 
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify()
+        // }); 
+
         const updated = characters.filter((character, i) => {
           return i !== index;
         });
         setCharacters(updated);
+
+        
       }
     
    
@@ -53,9 +63,11 @@ function MyApp() {
       postUser(person)
         .then((res) => {
           if (res.status != 201)
-            throw new Error("No good!");
+            throw new Error("Did not return status code 201. ERROR!");
         })
-        .then(() => setCharacters([...characters, person]))
+        //unsure whether this is right 
+        //.then(() => setCharacters([...characters, person])) 
+        .then(() => setCharacters([...characters, res.json()])) 
         .catch((error) => {
           console.log(error);
         })
