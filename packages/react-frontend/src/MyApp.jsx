@@ -20,9 +20,7 @@ function MyApp() {
         setCharacters(updated);
       }
     
-    function updateList(person) {
-    setCharacters([...characters, person]);
-    }
+   
 
       return (
         <div className="container">
@@ -53,6 +51,10 @@ function MyApp() {
 
     function updateList(person) { 
       postUser(person)
+        .then((res) => {
+          if (res.status != 201)
+            throw new Error("No good!");
+        })
         .then(() => setCharacters([...characters, person]))
         .catch((error) => {
           console.log(error);

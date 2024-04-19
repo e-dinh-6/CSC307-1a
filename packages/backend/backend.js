@@ -32,6 +32,7 @@ const findUserById = (id) =>
 
 
 const addUser = (user) => {
+  user["id"] = randomId();
   users["users_list"].push(user);
   return user;
   };
@@ -46,6 +47,18 @@ const findUserByName_Job = (name, job) => {
     (user) => (user["name"] === name && 
     user["job"] === job)
   );
+};
+
+const getRandomUppercaseChar= () => {
+  const r = Math.floor(Math.random() * 26);
+  return String.fromCharCode(65 + r);
+}
+
+const randomId = () => { 
+  let prefix = new Array(3).fill().map(() => getRandomUppercaseChar()).join("");
+  let integer = Math.floor((Math.random() * 999) * 1);
+  return prefix + integer;
+
 };
 
 //get requests 
@@ -96,7 +109,7 @@ app.get("/users", (req, res) => {
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
   addUser(userToAdd);
-  res.send();
+  res.status(201).send();
 });
 
 //delete request 
