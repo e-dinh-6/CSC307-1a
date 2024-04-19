@@ -32,7 +32,10 @@ const findUserById = (id) =>
 
 
 const addUser = (user) => {
-  user["id"] = randomId();
+  if (user["id"] === undefined){
+    user["id"] = randomId();
+  }
+  
   users["users_list"].push(user);
   return user;
   };
@@ -110,7 +113,7 @@ app.delete("/users/:id", (req, res) => {
   if (result === undefined) {
     res.status(404).send("Resource not found.");
   } else {
-    res.send("Delete Successful.");
+    res.status(204).send("Delete Successful.");
   }
 });
 

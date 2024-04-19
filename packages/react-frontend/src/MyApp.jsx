@@ -13,25 +13,43 @@ function MyApp() {
         .catch((error) => { console.log(error); });
     }, [] );
 
+
+    function deleteUser(index){
+      const charact = characters.filter((character, i) => {
+        return i === index;
+      });
+
+      let url = "http://localhost:8000/users/" + charact[0].id;
+      console.log("url: " + url)
+      const promise = fetch(url, {
+        method: "DELETE", 
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }); 
+      return promise; 
+    }
+
     function removeOneCharacter(index) {
-        // const promise = fetch("http://localhost:8000/users", {
-        //   method: "DELETE", 
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        //   body: JSON.stringify()
-        // }); 
-
-        const updated = characters.filter((character, i) => {
-          return i !== index;
-        });
-        setCharacters(updated);
-
+      deleteUser(index)
+      .then((res) => {
+        if (res.status != 204)
+          throw new Error("Not Successful Delete");
+        })
+      .then(() => filter_out(index))
+      .catch((error) => {
+        console.log(error);
+      })
         
       }
-    
-   
-
+      
+    function filter_out(index){
+      const updated = characters.filter((character, i) => {
+        return i !== index;
+      });
+      setCharacters(updated);
+      
+    }
       return (
         <div className="container">
           <Table
@@ -64,17 +82,15 @@ function MyApp() {
         .then((res) => {
           if (res.status != 201)
             throw new Error("Did not return status code 201. ERROR!");
+          return res.json();
         })
-        //unsure whether this is right 
-        //.then(() => setCharacters([...characters, person])) 
-        .then(() => setCharacters([...characters, res.json()])) 
+        
+        .then((newPer) => setCharacters([...characters, newPer])) 
         .catch((error) => {
           console.log(error);
         })
   }
     
 }
-
-
 
 export default MyApp;
