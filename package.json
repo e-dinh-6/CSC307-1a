@@ -7,9 +7,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
-  ,
-  "workspaces":[
+  "license": "ISC",
+  "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "mongoose": "^8.3.2"
+  }
 }
